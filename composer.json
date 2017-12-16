@@ -45,11 +45,7 @@
     },
     "config": {
         "preferred-install": "dist",
-<<<<<<< HEAD
         "sort-packages": true,
         "optimize-autoloader": true
-=======
-        "sort-packages": true
->>>>>>> 6e0e8259bbaf1b197e2f92cfdab0a75cb5254a9c
     }
 }
