@@ -12,7 +12,11 @@ return [
     | any other location as required by the application or its packages.
     */
 
+<<<<<<< HEAD
     'name' => env('APP_NAME', 'Laravel'),
+=======
+    'name' => 'Laravel',
+>>>>>>> 6e0e8259bbaf1b197e2f92cfdab0a75cb5254a9c
 
     /*
     |--------------------------------------------------------------------------

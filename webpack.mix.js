@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 let mix = require('laravel-mix');
+=======
+const { mix } = require('laravel-mix');
+>>>>>>> 6e0e8259bbaf1b197e2f92cfdab0a75cb5254a9c
 
 /*
  |--------------------------------------------------------------------------

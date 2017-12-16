@@ -8,6 +8,12 @@
                     <div class="panel-body">
                         I'm an example component!
                     </div>
+<<<<<<< HEAD
+=======
+                    <el-card class="box-card">
+                        123
+                    </el-card>
+>>>>>>> 6e0e8259bbaf1b197e2f92cfdab0a75cb5254a9c
                 </div>
             </div>
         </div>
@@ -20,4 +26,8 @@
             console.log('Component mounted.')
         }
     }
+<<<<<<< HEAD
 </script>
+=======
+</script>
+>>>>>>> 6e0e8259bbaf1b197e2f92cfdab0a75cb5254a9c
