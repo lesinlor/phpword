@@ -13,20 +13,17 @@
         <el-container>
             <el-aside width="200px">
                 <el-menu
-                        :router="true"
                         default-active="manage"
-                        class="el-menu-vertical-demo"
-                        @open="handleOpen"
-                        @close="handleClose">
-                    <el-menu-item index="admin">
+                        class="el-menu-vertical-demo">
+                    <el-menu-item index="admin" @click="$router.push({path: '/admin'})">
                         <i class="el-icon-menu"></i>
                         <span slot="title">用户登录</span>
                     </el-menu-item>
-                    <el-menu-item index="manage">
+                    <el-menu-item index="manage" @click="$router.push({path: '/manage'})">
                         <i class="el-icon-setting"></i>
                         <span slot="title">合同管理</span>
                     </el-menu-item>
-                    <el-menu-item index="export">
+                    <el-menu-item index="export" @click="$router.push({path: '/export'})">
                         <i class="el-icon-setting"></i>
                         <span slot="title">合同导出</span>
                     </el-menu-item>

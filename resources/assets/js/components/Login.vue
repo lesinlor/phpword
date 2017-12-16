@@ -11,6 +11,7 @@
                 </el-form-item>
                 <el-form-item prop="password" class="login-item">
                     <el-input
+                            type="password"
                             placeholder="请输入密码"
                             v-model="form.password">
                     </el-input>
@@ -58,7 +59,9 @@
         },
         methods: {
             handleSubmit() {
-
+                this.$router.push({
+                    path: '/manage'
+                });
             },
             getCode() {
 

@@ -9,11 +9,12 @@ import Home from './components/Home.vue'
 import Admin from './components/Admin.vue'
 import Manage from './components/Manage.vue'
 import Export from './components/Export.vue'
+import Edit from './components/Edit.vue'
 
 Vue.use(Router)
 
 export default new Router({
-    // mode: 'history',
+    mode: 'history',
     routes: [
         {
             path: '/login',
@@ -33,6 +34,9 @@ export default new Router({
             }, {
                 path: 'manage',
                 component: Manage
+            }, {
+                path: 'edit/:id',
+                component: Edit
             }]
         }
     ]
