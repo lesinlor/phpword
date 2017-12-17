@@ -14,7 +14,13 @@ class Role extends Model
         'created_at','flag','updated_at','created_user_id','updated_user_id'
     ];
 
-    public function menus(){
-
+    public function menus($role){
+        $item = $this->find($role);
+        $menus = $item->role_auth;
+        if($menus == '[]'){
+            //权限为空
+            return null;
+        }
+        return substr($menus,1,strlen($menus)-2);
     }
 }
