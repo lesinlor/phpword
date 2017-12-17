@@ -2,11 +2,15 @@
 
 namespace App\Providers;
 
+use App\AdminLog;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
 {
+    static $logModel = null;
+
     /**
      * This namespace is applied to your controller routes.
      *
@@ -23,9 +27,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
+        self::_autoTrace();
     }
 
     /**
@@ -69,5 +72,19 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
+    }
+
+    private function _autoTrace(){
+
+        $route = config('mine.unTrace');
+        /**
+         * 判断该请求是否需要写入日志,超级管理员日志不需要进行记录
+         */
+        if(!in_array(Request::getRequestUri(),$route) && $_SESSION['user_id'] != 1){
+            if(self::$logModel == null){
+                self::$logModel = new AdminLog();
+            }
+            self::$logModel->writeLog(Request::getRequestUri());
+        }
     }
 }

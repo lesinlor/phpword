@@ -17,8 +17,7 @@ class CreateAdminLogsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->notnull()->default(1);
             $table->string('nickname',32)->notnull()->default('');
-            $table->string('model')->notnull()->default(''); //操作模块
-            $table->string('action')->nollnull()->default(''); //执行动作
+            $table->string('action',255)->nollnull()->default(''); //执行动作
             $table->timestamp('created_at');
         });
     }

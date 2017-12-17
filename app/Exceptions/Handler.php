@@ -44,6 +44,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        //=============自定义404返回====================//
+        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException){
+            header('HTTP/1.1 404');
+            echo json_encode(array('code'=>404,'message'=>'方法不存在'));exit();
+        }
         return parent::render($request, $exception);
     }
 

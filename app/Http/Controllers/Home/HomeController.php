@@ -16,4 +16,8 @@ class HomeController extends Controller
         return 'hello world';
     }
 
+
+    public function table(){
+        return 'hello asd';
+    }
 }
