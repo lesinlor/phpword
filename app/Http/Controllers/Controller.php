@@ -6,6 +6,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Request;
 
 class Controller extends BaseController
 {
@@ -24,6 +25,9 @@ class Controller extends BaseController
     }
 
     private function _permission(){
+        $route = config('mine.unPermission');
+        if(in_array(Request::getRequestUri(),$route))
+            return true;
         /********用户未登录,返回403*********/
         if(!isset($_SESSION['user_id'])){
             header('HTTP/1.1 403');

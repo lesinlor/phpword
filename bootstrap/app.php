@@ -11,7 +11,7 @@
 |
 */
 
-////开启session
+//开启session
 session_start();
 
 

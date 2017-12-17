@@ -44,4 +44,9 @@ class LoginController extends Controller
 
     }
 
+    public function logout(){
+        $_SESSION = null;
+        parent::success();
+    }
+
 }
