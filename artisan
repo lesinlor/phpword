@@ -40,7 +40,11 @@ $status = $kernel->handle(
 | Shutdown The Application
 |--------------------------------------------------------------------------
 |
+<<<<<<< HEAD
+| Once Artisan has finished running, we will fire off the shutdown events
+=======
 | Once Artisan has finished running. We will fire off the shutdown events
+>>>>>>> 6e0e8259bbaf1b197e2f92cfdab0a75cb5254a9c
 | so that any final work may be done by the application before we shut
 | down the process. This is the last thing to happen to the request.
 |
