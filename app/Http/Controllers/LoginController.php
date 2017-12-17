@@ -35,6 +35,9 @@ class LoginController extends Controller
         $_SESSION['nickname'] = $data->nickname;
         $_SESSION['role_id'] = $data->role_id;
         $_SESSION['is_admin'] = $data->role_id == 1 ? 1 : 0;
+        $data->last_login_at = time();
+        $data->last_login_ip = $_SERVER['REMOTE_ADDR'];
+        $data->save();
         $data = $data->toArray();
         unset($data['password']);
         parent::success($data);

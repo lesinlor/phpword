@@ -35,7 +35,7 @@ Route::group(['prefix' => 'api'], function (){
         return array('code' => 0, 'data' => $data);
     });
 
-    Route::get('/login', "LoginController@login");
+    Route::post('/login', "LoginController@login");
 
 });
 
