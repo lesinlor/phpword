@@ -82,11 +82,11 @@ class Concordat extends Model
             $query[] = ['type',(int)$param['type']];
         }
         if(!empty($param['section'])){
-            $op = $param['sop'] == 'lgt' ? '<' : ($param['op'] == '>' ?  '>' : '=');
+            $op = $param['sop'] == 'lt' ? '<' : ($param['op'] == 'gt' ?  '>' : '=');
             $query[] = ['section', $op, (int)$param['section']];
         }
         if(!empty($param['money'])){
-            $op = $param['mop'] == 'lgt' ? '<' : '>';
+            $op = $param['mop'] == 'lt' ? '<' : '>';
             $query[] = ['section', $op, (int)$param['section']];
         }
         if(!empty($param['sort'])){
