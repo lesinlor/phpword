@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-row>
-            <p style="font-size: 20px">合同编辑</p>
+            <p style="font-size: 20px"><el-button type="text" @click="$router.push({path: '/manage'})">返回上页</el-button>  >> 合同编辑</p>
         </el-row>
         <el-form ref="form" :model="form" label-width="110px" :label-position="'left'">
             <el-form-item label="合同ID">
