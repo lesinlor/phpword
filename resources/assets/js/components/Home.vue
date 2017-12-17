@@ -20,7 +20,7 @@
                         class="el-menu-vertical-demo">
                     <el-menu-item index="admin" @click="$router.push({path: '/admin'})">
                         <i class="el-icon-menu"></i>
-                        <span slot="title">用户登录</span>
+                        <span slot="title">用户管理</span>
                     </el-menu-item>
                     <el-menu-item index="manage" @click="$router.push({path: '/manage'})">
                         <i class="el-icon-setting"></i>

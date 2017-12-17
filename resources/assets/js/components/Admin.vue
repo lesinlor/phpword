@@ -68,8 +68,8 @@
                 </el-form-item>
                 <el-form-item label="角色权限" :label-width="formLabelWidth">
                     <el-select v-model="editForm.role_id">
-                        <el-option label="管理员" value="1"></el-option>
-                        <el-option label="普通" value="2"></el-option>
+                        <el-option label="管理员" value="2"></el-option>
+                        <el-option label="员工" value="3"></el-option>
                     </el-select>
                 </el-form-item>
             </el-form>
@@ -82,9 +82,14 @@
 </template>
 
 <script>
+    import qs from 'qs';
     export default{
         data() {
             return {
+                api: {
+                    get: '/api/user',
+                    post: 'api/user'
+                },
                 userGroup: [{
                     id: '',
                     nickname: '',
@@ -94,8 +99,8 @@
                 }],
                 editForm: {
                     id: '',
-                    name: '',
-                    user: '',
+                    nickname: '',
+                    username: '',
                     password: '',
                     role_id: ''
                 },
@@ -134,26 +139,48 @@
                 this.editForm.password = ''
                 this.dialogFormVisible = true
             },
-            handleDelete() {
+            handleDelete(index, row) {
+                let api = this.api.post
+                let form = row
+                form.flag = 0
                 this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
+                    axios.post(api, qs.stringify(form)).then(res => {
+                        console.log(res);
+                        this.reloadData()
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    })
+
                 })
             },
             handleSave() {
+                let api = this.api.post
                 this.dialogFormVisible = false
+                axios.post(api, qs.stringify(this.editForm)).then(res => {
+                    console.log(res);
+                    this.reloadData()
+                })
             },
             reloadData() {
-                axios.get('/api/user').then( res => {
-                    console.log(res);
+                let api = this.api.get
+                console.log(this.options);
+                axios.get(api, qs.stringify(this.options)).then( res => {
                     this.userGroup = res.data.data
                 })
+            }
+        },
+        computed: {
+            options() {
+                return {
+                    offset: (this.currentPage - 1) * this.limit,
+                    limit: this.limit
+                }
             }
         },
         created() {

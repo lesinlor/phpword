@@ -21,7 +21,7 @@ class UserController extends Controller
 
     public function store()
     {
-        $user_id = (int)parent::rq('user_id');
+        $user_id = (int)parent::rq('id');
         $nickname = parent::rq('nickname');
         $username = parent::rq('username');
         $password = parent::rq('password');
@@ -80,7 +80,7 @@ class UserController extends Controller
                 'username' => $username,
                 'password' => md5($password . config('app.key')),
                 'role_id' => $role_id,
-                'flag' => in_array($flag, array(0, 1)) ?: 0
+                'flag' => in_array($flag, array('0', '1')) ? 1 : 0
             );
             if($this->user->create($param))
                 parent::success();
