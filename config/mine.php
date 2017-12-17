@@ -15,6 +15,7 @@ return [
     'errorCode' => array(
         'noAuth' => 1001, //未登录
         'paramError' => 1002, //参数错误
+        'noContent' => 1003, //暂无相关数据
         'invalidUserName' => 2001, //非法的登录名
         'invalidPassword' => 2002, //非法的密码
         'invalidNickName' => 2003, //非法的用户名

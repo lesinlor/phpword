@@ -107,12 +107,21 @@ class AdminController extends Controller
         );
         $data = $this->user->userList($param,$offset,$limit);
         if($lists = $data->toArray()){
-            $roles = \App\Role::all('id','role_name');
+            $total = (int)$this->user->countUsers($param);
+            $roles = \App\Role::all('id','role_name')->keyBy('id')->toArray();
             foreach ($lists as &$value){
-
+                $value['role_name'] = !empty($roles) ? $roles[$value['role_id']]['role_name'] : '';
             }
+            unset($value);
+            $meta = array(
+                'total' => $total,
+                'current' => count($lists),
+                'offset' => $offset,
+                'limit' => $limit
+            );
+            parent::success($lists,$meta);
         }
-        dd($data->toArray());
+        parent::fail($this->errorCode['noContent'],"暂无相关内容");
     }
 
     /**

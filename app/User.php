@@ -50,4 +50,23 @@ class User extends Model
                     ->get();
     }
 
+    public function countUsers($param){
+        $query = array();
+        if($param['flag'] === 0 || $param['flag'] === '0' || $param['flag'] == 1){
+            $query[] = ['flag', '=', (int)$param['flag']];
+        }
+        if($param['role_id']){
+            $query[] = ['role_id','=',(int)$param['role_id']];
+        }
+        if(!empty($query)){
+            return $this->where($query)
+                ->orderByDesc('role_id')
+                ->orderByDesc('created_at')
+                ->count('id');
+        }
+        return $this->orderByDesc('role_id')
+            ->orderByDesc('created_at')
+            ->count('id');
+    }
+
 }
