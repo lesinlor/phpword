@@ -11,6 +11,14 @@
 |
 */
 
+////开启session
+session_start();
+
+$_SESSION['user_id'] = 10;
+$_SESSION['nickname'] = 'asd';
+$_SESSION['is_admin'] = 1;
+
+
 $app = new Illuminate\Foundation\Application(
     realpath(__DIR__.'/../')
 );

@@ -14,3 +14,12 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::group(['prefix' => 'api'], function (){
+
+    Route::get('/table', "Home\HomeController@table");
+
+    Route::resource('user', 'AdminController');
+
+});

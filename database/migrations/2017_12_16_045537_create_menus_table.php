@@ -20,8 +20,8 @@ class CreateMenusTable extends Migration
            $table->string('uri',255)->notnull()->default('');
            $table->integer('pid')->notnull()->default(0);
            $table->tinyInteger('flag')->notnull()->default(1);
-           $table->integer('created_user_at')->default(0);
-           $table->integer('updated_user_at')->default(0);
+           $table->integer('created_user_id')->default(0);
+           $table->integer('updated_user_id')->default(0);
            $table->timestamps();
         });
     }

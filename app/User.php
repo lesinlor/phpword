@@ -2,12 +2,10 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class User extends Model
 {
-    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +13,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'nickname', 'password','role_id','last_login_at','last_login_ip','created_user_id','updated_user_id',
+        'flag','username'
     ];
 
     /**
@@ -24,6 +23,31 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password','created_user_id','updated_user_id','updated_at'
     ];
+
+
+    public function userList($param, $offset, $limit){
+        $query = array();
+        if($param['flag'] === 0 || $param['flag'] === '0' || $param['flag'] == 1){
+            $query[] = ['flag', '=', (int)$param['flag']];
+        }
+        if($param['role_id']){
+            $query[] = ['role_id','=',(int)$param['role_id']];
+        }
+        if(!empty($query)){
+            return $this->where($query)
+                        ->orderByDesc('role_id')
+                        ->orderByDesc('created_at')
+                        ->offset($offset)
+                        ->limit($limit)
+                        ->get();
+        }
+        return $this->orderByDesc('role_id')
+                    ->orderByDesc('created_at')
+                    ->offset($offset)
+                    ->limit($limit)
+                    ->get();
+    }
+
 }
