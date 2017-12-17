@@ -49,7 +49,7 @@ class UserController extends Controller
                 if (!self::_checkPassWord($password)) {
                     parent::fail($this->errorCode['invalidPassword'], '密码长度应该在6~20位之间');
                 }
-                $user->password = $password;
+                $user->password = md5($password.config('app.key'));
 
             }
             //判断是否需要进行权限更新
@@ -92,9 +92,11 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        $user = $this->user->find($user);
-        if($user)
+        $user = $this->user->find($user)->toArray();
+        if($user){
+            unset($user['password']);
             parent::success($user);
+        }
         parent::fail($this->errorCode['noContent'],"暂无相关内容");
     }
 

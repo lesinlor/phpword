@@ -7,10 +7,15 @@
  */
 
 return [
+    /*不记录日志*/
     'unTrace' => array(
         '/',
         'api/login',
         'api/logout'
+    ),
+    /*不需要权限可以请求*/
+    'unPermission' => array(
+        'api/login'
     ),
     'errorCode' => array(
         'noAuth' => 1001, //未登录
@@ -22,5 +27,6 @@ return [
         'addUserFail' => 3001, //添加用户失败
         'updateUserFail' => 3002, //更新用失败
         'userNotExists' => 3003, //用户不存在
+        'incorrectPassword' => 3004, //密码不正确
     )
 ];

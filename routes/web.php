@@ -35,6 +35,11 @@ Route::group(['prefix' => 'api'], function (){
         return array('code' => 0, 'data' => $data);
     });
 
-});
+    Route::post('/login', "LoginController@login");
 
+    Route::post('/logout', "LoginController@logout");
+
+    Route::any('/img/upload', "ImageController@upload");
+
+});
 
