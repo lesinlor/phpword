@@ -28424,23 +28424,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             userGroup: [{
-                id: 1,
-                name: '陈智',
-                user: 'chenz',
-                role_id: '1',
-                role_name: '管理员'
-            }, {
-                id: 2,
-                name: '陈智2',
-                user: 'chenzz',
-                role_id: '1',
-                role_name: '管理员'
-            }, {
-                id: 3,
-                name: '陈智3',
-                user: 'chenzzz',
-                role_id: '1',
-                role_name: '管理员'
+                id: '',
+                nickname: '',
+                username: '',
+                role_id: '',
+                role_name: ''
             }],
             editForm: {
                 id: '',
@@ -28502,7 +28490,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         handleSave: function handleSave() {
             this.dialogFormVisible = false;
         },
-        reloadData: function reloadData() {}
+        reloadData: function reloadData() {
+            var _this2 = this;
+
+            axios.get('/api/user').then(function (res) {
+                console.log(res);
+                _this2.userGroup = res.data.data;
+            });
+        }
+    },
+    created: function created() {
+        this.reloadData();
     }
 });
 
@@ -88435,12 +88433,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "name",
+      "prop": "nickname",
       "label": "姓名"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "user",
+      "prop": "username",
       "label": "用户名"
     }
   }), _vm._v(" "), _c('el-table-column', {
@@ -88533,11 +88531,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "auto-complete": "off"
     },
     model: {
-      value: (_vm.editForm.name),
+      value: (_vm.editForm.nickname),
       callback: function($$v) {
-        _vm.$set(_vm.editForm, "name", $$v)
+        _vm.$set(_vm.editForm, "nickname", $$v)
       },
-      expression: "editForm.name"
+      expression: "editForm.nickname"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {
@@ -88549,11 +88547,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "auto-complete": "off"
     },
     model: {
-      value: (_vm.editForm.name),
+      value: (_vm.editForm.username),
       callback: function($$v) {
-        _vm.$set(_vm.editForm, "name", $$v)
+        _vm.$set(_vm.editForm, "username", $$v)
       },
-      expression: "editForm.name"
+      expression: "editForm.username"
     }
   })], 1), _vm._v(" "), _c('el-form-item', {
     attrs: {

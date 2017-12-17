@@ -16,11 +16,11 @@
                     label="ID">
                 </el-table-column>
                 <el-table-column
-                    prop="name"
+                    prop="nickname"
                     label="姓名">
                 </el-table-column>
                 <el-table-column
-                    prop="user"
+                    prop="username"
                     label="用户名">
                 </el-table-column>
                 <el-table-column
@@ -58,10 +58,10 @@
                     <el-input v-model="editForm.id" auto-complete="off" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="姓名" :label-width="formLabelWidth">
-                    <el-input v-model="editForm.name" auto-complete="off"></el-input>
+                    <el-input v-model="editForm.nickname" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="用户名" :label-width="formLabelWidth">
-                    <el-input v-model="editForm.name" auto-complete="off"></el-input>
+                    <el-input v-model="editForm.username" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" :label-width="formLabelWidth">
                     <el-input type="password" v-model="editForm.password" auto-complete="off" placeholder="新增用户必填"></el-input>
@@ -86,23 +86,11 @@
         data() {
             return {
                 userGroup: [{
-                    id: 1,
-                    name: '陈智',
-                    user: 'chenz',
-                    role_id: '1',
-                    role_name: '管理员'
-                }, {
-                    id: 2,
-                    name: '陈智2',
-                    user: 'chenzz',
-                    role_id: '1',
-                    role_name: '管理员'
-                }, {
-                    id: 3,
-                    name: '陈智3',
-                    user: 'chenzzz',
-                    role_id: '1',
-                    role_name: '管理员'
+                    id: '',
+                    nickname: '',
+                    username: '',
+                    role_id: '',
+                    role_name: ''
                 }],
                 editForm: {
                     id: '',
@@ -162,8 +150,14 @@
                 this.dialogFormVisible = false
             },
             reloadData() {
-
+                axios.get('/api/user').then( res => {
+                    console.log(res);
+                    this.userGroup = res.data.data
+                })
             }
+        },
+        created() {
+            this.reloadData()
         }
     }
 </script>
