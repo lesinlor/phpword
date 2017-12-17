@@ -23,6 +23,7 @@ class CreateConcordatsTable extends Migration
             $table->smallInteger('grade')->notnull()->default(1); //1为优,2为良
             $table->string('concat',32)->notnull()->default('');
             $table->string('telephone',16)->notnull()->default('');
+            $table->timestamps();
         });
     }
 

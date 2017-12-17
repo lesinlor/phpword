@@ -39,6 +39,7 @@ Route::group(['prefix' => 'api'], function (){
 
     Route::post('/logout', "LoginController@logout");
 
-});
+    Route::any('/img/upload', "ImageController@upload");
 
+});
 
