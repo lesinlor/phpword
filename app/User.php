@@ -23,7 +23,7 @@ class User extends Model
      * @var array
      */
     protected $hidden = [
-        'password','created_user_id','updated_user_id','updated_at'
+        'created_user_id','updated_user_id','updated_at'
     ];
 
 

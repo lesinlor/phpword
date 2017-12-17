@@ -92,9 +92,11 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        $user = $this->user->find($user);
-        if($user)
+        $user = $this->user->find($user)->toArray();
+        if($user){
+            unset($user['password']);
             parent::success($user);
+        }
         parent::fail($this->errorCode['noContent'],"暂无相关内容");
     }
 
