@@ -25,23 +25,26 @@
                 </el-form-item>
                 <el-form-item label="时长">
                     <el-select v-model="form.time_op">
-                        <el-option v-for="item in compare" :key="item" :label="item" :value="item"></el-option>
+                        <el-option v-for="(item, key) in compare" :key="key" :label="item" :value="key"></el-option>
                     </el-select>
                     <el-input v-model="form.time" placeholder="以月为单位"></el-input>
                 </el-form-item>
                 <el-form-item label="金额">
                     <el-select v-model="form.price_op">
-                        <el-option v-for="item in compare" :key="item" :label="item" :value="item"></el-option>
+                        <el-option v-for="(item, key) in compare" :key="key" :label="item" :value="key"></el-option>
                     </el-select>
                     <el-input v-model="form.price"  placeholder="以元为单位"></el-input>
                 </el-form-item>
                 <el-form-item label="默认排序">
-                    <el-input v-model="form.sort"></el-input>
-                    <el-select v-model="form.order">
+                    <el-select v-model="form.sort">
                         <el-option :label="'金额'" :value="'price'"></el-option>
                         <el-option :label="'开始时间'" :value="'st'"></el-option>
                         <el-option :label="'结束时间'" :value="'et'"></el-option>
                         <el-option :label="'时长'" :value="'time'"></el-option>
+                    </el-select>
+                    <el-select v-model="form.order">
+                        <el-option :label="'金额'" :value="'price'"></el-option>
+                        <el-option :label="'开始时间'" :value="'st'"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-button type="primary" size="mini" class="marginTop" @click="onSubmit">搜索</el-button>
@@ -117,7 +120,11 @@
                     contact_name: '周永红',
                     contact_tel: '82227369'
                 }],
-                compare: ['>','=','<']
+                compare: {
+                    gt: '>',
+                    lt: '<',
+                    eq: '='
+                }
             }
         },
         methods: {
@@ -140,6 +147,7 @@
     .drag-table{
         border: 1px solid #eaecef;
         padding: 10px;
+        cursor: move;
     }
     .el-input{
         width: 180px;

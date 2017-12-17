@@ -30,12 +30,12 @@
                 <el-table-column label="操作">
                     <template slot-scope="scope">
                         <el-button
-                                size="mini"
-                                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                            size="mini"
+                            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                         <el-button
-                                size="mini"
-                                type="danger"
-                                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                            size="mini"
+                            type="danger"
+                            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -43,7 +43,7 @@
         <el-row class="marginTop">
             <el-pagination
                     layout="sizes, prev, pager, next"
-                    :page-sizes="[20, 50, 100]"
+                    :page-sizes="[5, 50, 100]"
                     :page-size="limit"
                     :current-page="currentPage"
                     :total="pagination.sum"
@@ -105,9 +105,9 @@
                     role_id: ''
                 },
                 pagination: {
-                    sum: 20
+                    sum: 0
                 },
-                limit: 20,
+                limit: 5,
                 currentPage: 1,
                 dialogFormVisible: false,
                 formLabelWidth: '120px',
@@ -169,11 +169,20 @@
             },
             reloadData() {
                 let api = this.api.get
+                let params = {params: this.options}
                 console.log(this.options);
-                axios.get(api, qs.stringify(this.options)).then( res => {
+                axios.get(api, params).then( res => {
                     this.userGroup = res.data.data
+                    this.pagination.sum = res.data.meta.total
                 })
             }
+        },
+        beforeRouteEnter (to, from, next) {
+            // 在渲染该组件的对应路由被 confirm 前调用
+            // 不！能！获取组件实例 `this`
+            // 因为当守卫执行前，组件实例还没被创建
+            // next({ path: '/login'});
+            next();
         },
         computed: {
             options() {

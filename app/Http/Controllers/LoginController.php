@@ -25,7 +25,7 @@ class LoginController extends Controller
         $user = new \App\User();
         $data = $user->where('username',$username)->first();
         //校验密码
-        if(!$data->toArray())
+        if(!$data)
             parent::fail($this->errorCode['userNotExists'],'用户不存在');
         if($data->password != md5($password.config('app.key'))){
             parent::fail($this->errorCode['incorrectPassword'],'密码有误');
