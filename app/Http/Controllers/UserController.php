@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class UserController extends Controller
 {
     protected $user;
 
     function __construct(User $user)
     {
         parent::__construct();
+        if($_SESSION['role_id'] != 1){
+            header('HTTP/1.1 403');
+            self::fail($this->errorCode['noAuth'],'没有权限');
+        }
         $this->user = $user;
     }
 
@@ -89,7 +93,9 @@ class AdminController extends Controller
     public function show(User $user)
     {
         $user = $this->user->find($user);
-        dd($user->toArray());
+        if($user)
+            parent::success($user);
+        parent::fail($this->errorCode['noContent'],"暂无相关内容");
     }
 
     public function index(){

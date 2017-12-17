@@ -20,6 +20,21 @@ Route::group(['prefix' => 'api'], function (){
 
     Route::get('/table', "Home\HomeController@table");
 
-    Route::resource('user', 'AdminController');
+    Route::get('/role', "RoleController@all");
+
+    Route::resource('user', 'UserController');
+
+    Route::get('/role/{role}', function ($item){
+        if($_SESSION['role_id'] != 1){
+            return array('code' => 1001,'message' => '权限不够');
+        }
+        $role = new \App\Role();
+        $menusId = $role->menus($item);
+        $menu = new \App\Menu();
+        $data = $menu->roleMenus($menusId);
+        return array('code' => 0, 'data' => $data);
+    });
 
 });
+
+
