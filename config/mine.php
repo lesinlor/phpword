@@ -28,5 +28,8 @@ return [
         'updateUserFail' => 3002, //更新用失败
         'userNotExists' => 3003, //用户不存在
         'incorrectPassword' => 3004, //密码不正确
-    )
+        'uploadImageFail' => 4001, //上传图片失败,
+        'addConcordatFail' => 4002
+    ),
+    'concordatPath' => 'concordat'
 ];

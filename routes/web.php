@@ -41,5 +41,18 @@ Route::group(['prefix' => 'api'], function (){
 
     Route::any('/img/upload', "ImageController@upload");
 
+    Route::get('/table/list', "ConcordatController@all");
+
+    Route::get('/table/detail', "ConcordatController@show");
+
+    Route::post('/table/store', "ConcordatController@store");
+
+    Route::post('/table/edit', "ConcordatController@edit");
+
+});
+
+Route::any('/test', function(){
+   $t = '2017-12-11';
+   dd(strtotime($t));
 });
 

@@ -17,12 +17,16 @@ class CreateConcordatsTable extends Migration
             $table->increments('id');
             $table->string('name', 60)->unique()->notnull()->default('');
             $table->string('address', 512)->notnull()->default('');
+            $table->integer('type')->notnull()->default(1); //默认为其他
             $table->float('money')->notnull()->defualt(0.00);
             $table->integer('st')->notnull()->default(0);
             $table->integer('et')->notnull()->default(0);
+            $table->integer('section')->notnull()->default(0);
             $table->smallInteger('grade')->notnull()->default(1); //1为优,2为良
             $table->string('concat',32)->notnull()->default('');
             $table->string('telephone',16)->notnull()->default('');
+            $table->integer('created_user_id')->notnull()->default(1);
+            $table->integer('updated_user_id')->notnull()->default(1);
             $table->timestamps();
         });
     }
