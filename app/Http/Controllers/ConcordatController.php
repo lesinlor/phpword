@@ -40,7 +40,7 @@ class ConcordatController extends Controller
 
         $data = $this->concordat->lists($param,$offset,$limit);
 
-        if($data){
+        if($data->toArray()){
             $type = \App\ConcordatType::all(array('id','name','flag'))->keyBy('id');
             foreach ($data as &$item){
                 $item['type_name'] = array_key_exists((int)$item['type'],$type) ? $type[(int)$item['type']]['name'] : '';

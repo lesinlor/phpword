@@ -33,12 +33,12 @@ class Concordat extends Model
             $query[] = ['type',(int)$param['type']];
         }
         if(!empty($param['section'])){
-            $op = $param['sop'] == 'lgt' ? '<' : ($param['op'] == '>' ?  '>' : '=');
+            $op = $param['sop'] == 'lt' ? '<' : ($param['op'] == 'gt' ?  '>' : '=');
             $query[] = ['section', $op, (int)$param['section']];
         }
         if(!empty($param['money'])){
-            $op = $param['mop'] == 'lgt' ? '<' : '>';
-            $query[] = ['section', $op, (int)$param['section']];
+            $op = $param['mop'] == 'lt' ? '<' : '>';
+            $query[] = ['money', $op, (float)$param['money']];
         }
         if(!empty($param['sort'])){
             $sort = $param['sort'] == 'desc' ? 'desc' : 'asc';
@@ -87,7 +87,7 @@ class Concordat extends Model
         }
         if(!empty($param['money'])){
             $op = $param['mop'] == 'lt' ? '<' : '>';
-            $query[] = ['section', $op, (int)$param['section']];
+            $query[] = ['money', $op, (float)$param['money']];
         }
         if(!empty($param['sort'])){
             $sort = $param['sort'] == 'desc' ? 'desc' : 'asc';
