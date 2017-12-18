@@ -31,7 +31,6 @@ class LoginController extends Controller
             parent::fail($this->errorCode['incorrectPassword'],'密码有误');
         }
         $_SESSION['user_id'] = $data->id;
-        $_SESSION['username'] = $data->username;
         $_SESSION['nickname'] = $data->nickname;
         $_SESSION['role_id'] = $data->role_id;
         $_SESSION['is_admin'] = $data->role_id == 1 ? 1 : 0;

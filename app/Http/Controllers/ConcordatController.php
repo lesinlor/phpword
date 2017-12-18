@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Concordat;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
 
 
@@ -64,7 +63,7 @@ class ConcordatController extends Controller
      * 查看
      */
     public function show(){
-        $c_id = (int)parent::rq('c_id');
+        $c_id = (int)parent::rq('id');
         if(!$c_id)
             parent::fail($this->errorCode['paramError'],'参数错误');
         $data = $this->concordat->find($c_id);
@@ -116,7 +115,7 @@ class ConcordatController extends Controller
      * 编辑
      */
     public function edit(){
-        $c_id = (int)parent::rq('c_id');
+        $c_id = (int)parent::rq('id');
         if(!$c_id)
             parent::fail($this->errorCode['paramError'],'参数错误');
         $newConcordat = $this->concordat->find($c_id);
@@ -132,7 +131,7 @@ class ConcordatController extends Controller
         if(!empty(parent::rq('st'))){
             $newConcordat->st = strtotime(parent::rq('st'));
         }
-        if(!empty(parent::rq('st'))) {
+        if(!empty(parent::rq('et'))) {
             $newConcordat->et = strtotime(parent::rq('et'));
         }
         if(!empty(parent::rq('grade'))){
