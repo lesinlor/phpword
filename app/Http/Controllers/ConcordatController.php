@@ -36,6 +36,11 @@ class ConcordatController extends Controller
         $limit = ($limit && $limit < 3000 && $limit >0) ? $limit : 20;
         $offset = $offset > 0 ? $offset : 0;
 
+        if(!empty($st))
+            $st .= " 00:00:00";
+        if(!empty($et))
+            $et .= " 23:59:59";
+
         $param = compact('st','et','type','section','sop','money','mop','sort','name');
 
         $data = $this->concordat->lists($param,$offset,$limit);
