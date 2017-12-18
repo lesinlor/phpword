@@ -67,15 +67,19 @@
         },
         data() {
             return {
+                api: {
+                    get: '',
+                    exp: ''
+                },
                 form: {
                     address: '',
                     type: '0',
                     st: '',
                     et: '',
                     time: '',
-                    time_op: '>',
+                    time_op: 'gt',
                     price: '',
-                    price_op: '>',
+                    price_op: 'gt',
                     sort: '',
                     order: '金额'
                 },
@@ -132,9 +136,20 @@
                 console.log(this.form);
             },
             onSubmit() {
-                console.log(
-                    this.data
-                );
+                let id = ''
+                for(let i in this.data){
+                    id += this.data[i].id + ','
+                }
+                console.log(id);
+                this.reloadData()
+            },
+            reloadData() {
+                let params = {
+                    params: this.form
+                }
+                axios.get(this.api.get, params).then(res => {
+                    console.log(res);
+                })
             }
         }
     }

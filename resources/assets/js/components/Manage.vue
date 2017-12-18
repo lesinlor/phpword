@@ -16,7 +16,7 @@
                         label="ID">
                 </el-table-column>
                 <el-table-column
-                        prop="project_name"
+                        prop="name"
                         label="项目名称">
                 </el-table-column>
                 <el-table-column
@@ -24,11 +24,11 @@
                         label="项目地址">
                 </el-table-column>
                 <el-table-column
-                        prop="price"
+                        prop="money"
                         label="合同总价(元)">
                 </el-table-column>
                 <el-table-column
-                        prop="date"
+                        prop="st"
                         label="服务年限">
                 </el-table-column>
                 <el-table-column
@@ -36,15 +36,15 @@
                         label="服务时长(月)">
                 </el-table-column>
                 <el-table-column
-                        prop="quality"
+                        prop="grade"
                         label="项目质量">
                 </el-table-column>
                 <el-table-column
-                        prop="contact_name"
+                        prop="concat"
                         label="项目单位联系人">
                 </el-table-column>
                 <el-table-column
-                        prop="contact_tel"
+                        prop="telephone"
                         label="联系人电话">
                 </el-table-column>
                 <el-table-column label="操作" width="150px">
@@ -79,16 +79,20 @@
     export default{
         data() {
             return {
+                api: {
+                   get: '/api/table/list'
+                },
                 data: [{
                     id: '1',
-                    project_name: '广州开发区公园及广场保安服务采购项目子项目1',
+                    name: '广州开发区公园及广场保安服务采购项目子项目1',
                     address: '广州开发区科学城揽月路',
-                    price: '7919316.24',
-                    date: '2017.1.1-2018.12.31',
+                    money: '7919316.24',
+                    st: '2017.1.1',
+                    et: '2018.12.31',
                     time: '24',
-                    quality: '优秀',
-                    contact_name: '周永红',
-                    contact_tel: '82227369'
+                    grade: '优秀',
+                    concat: '周永红',
+                    telephone: '82227369'
                 }],
                 pagination: {
                     sum: 20
@@ -132,15 +136,29 @@
                     this.$router.push({path: '/edit/0'});
             },
             reloadData() {
-
+                let api = this.api.get
+                let params = {params: this.options}
+                console.log(this.options);
+                axios.get(api, params).then( res => {
+                    this.data = res.data.data
+                    this.pagination.sum = res.data.meta.total
+                })
             }
         },
-
+        computed: {
+            options() {
+                return {
+                    offset: (this.currentPage - 1) * this.limit,
+                    limit: this.limit
+                }
+            }
+        },
         created() {
-            this.data[1] = this.data[0]
-            this.data[2] = this.data[0]
-            this.data[3] = this.data[0]
-            this.data[4] = this.data[0]
+            this.reloadData()
+//            this.data[1] = this.data[0]
+//            this.data[2] = this.data[0]
+//            this.data[3] = this.data[0]
+//            this.data[4] = this.data[0]
         }
     }
 </script>

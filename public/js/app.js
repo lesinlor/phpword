@@ -28736,15 +28736,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
+            api: {
+                get: '',
+                exp: ''
+            },
             form: {
                 address: '',
                 type: '0',
                 st: '',
                 et: '',
                 time: '',
-                time_op: '>',
+                time_op: 'gt',
                 price: '',
-                price_op: '>',
+                price_op: 'gt',
                 sort: '',
                 order: '金额'
             },
@@ -28802,7 +28806,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             console.log(this.form);
         },
         onSubmit: function onSubmit() {
-            console.log(this.data);
+            var id = '';
+            for (var i in this.data) {
+                id += this.data[i].id + ',';
+            }
+            console.log(id);
+            this.reloadData();
+        },
+        reloadData: function reloadData() {
+            var params = {
+                params: this.form
+            };
+            axios.get(this.api.get, params).then(function (res) {
+                console.log(res);
+            });
         }
     }
 });
@@ -29063,16 +29080,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            api: {
+                get: '/api/table/list'
+            },
             data: [{
                 id: '1',
-                project_name: '广州开发区公园及广场保安服务采购项目子项目1',
+                name: '广州开发区公园及广场保安服务采购项目子项目1',
                 address: '广州开发区科学城揽月路',
-                price: '7919316.24',
-                date: '2017.1.1-2018.12.31',
+                money: '7919316.24',
+                st: '2017.1.1',
+                et: '2018.12.31',
                 time: '24',
-                quality: '优秀',
-                contact_name: '周永红',
-                contact_tel: '82227369'
+                grade: '优秀',
+                concat: '周永红',
+                telephone: '82227369'
             }],
             pagination: {
                 sum: 20
@@ -29115,14 +29136,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         editPact: function editPact(id) {
             if (id) this.$router.push({ path: '/edit/' + id });else this.$router.push({ path: '/edit/0' });
         },
-        reloadData: function reloadData() {}
-    },
+        reloadData: function reloadData() {
+            var _this2 = this;
 
+            var api = this.api.get;
+            var params = { params: this.options };
+            console.log(this.options);
+            axios.get(api, params).then(function (res) {
+                _this2.data = res.data.data;
+                _this2.pagination.sum = res.data.meta.total;
+            });
+        }
+    },
+    computed: {
+        options: function options() {
+            return {
+                offset: (this.currentPage - 1) * this.limit,
+                limit: this.limit
+            };
+        }
+    },
     created: function created() {
-        this.data[1] = this.data[0];
-        this.data[2] = this.data[0];
-        this.data[3] = this.data[0];
-        this.data[4] = this.data[0];
+        this.reloadData();
+        //            this.data[1] = this.data[0]
+        //            this.data[2] = this.data[0]
+        //            this.data[3] = this.data[0]
+        //            this.data[4] = this.data[0]
     }
 });
 
@@ -90174,7 +90213,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "project_name",
+      "prop": "name",
       "label": "项目名称"
     }
   }), _vm._v(" "), _c('el-table-column', {
@@ -90184,12 +90223,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "price",
+      "prop": "money",
       "label": "合同总价(元)"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "date",
+      "prop": "st",
       "label": "服务年限"
     }
   }), _vm._v(" "), _c('el-table-column', {
@@ -90199,17 +90238,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "quality",
+      "prop": "grade",
       "label": "项目质量"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "contact_name",
+      "prop": "concat",
       "label": "项目单位联系人"
     }
   }), _vm._v(" "), _c('el-table-column', {
     attrs: {
-      "prop": "contact_tel",
+      "prop": "telephone",
       "label": "联系人电话"
     }
   }), _vm._v(" "), _c('el-table-column', {
