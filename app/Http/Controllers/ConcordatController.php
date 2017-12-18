@@ -116,7 +116,7 @@ class ConcordatController extends Controller
      * 编辑
      */
     public function edit(){
-        $c_id = (int)parent::rq('c_id');
+        $c_id = (int)parent::rq('id');
         if(!$c_id)
             parent::fail($this->errorCode['paramError'],'参数错误');
         $newConcordat = $this->concordat->find($c_id);

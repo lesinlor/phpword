@@ -26,6 +26,7 @@ window.Vue = require('vue');
  */
 
 window.axios = require('axios');
+window.qs = require('qs');
 
 window.axios.defaults.headers.common = {
     'X-CSRF-TOKEN': document.querySelector('meta[name="X-CSRF-TOKEN"]').content,
