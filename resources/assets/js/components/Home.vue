@@ -7,7 +7,7 @@
                 background-color="#545c64"
                 text-color="#fff"
                 active-text-color="#ffd04b">
-                <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">退出登录</a></el-menu-item>
+                <el-menu-item index="3" @click="handleLogout">退出登录</el-menu-item>
                 <el-menu-item index="2">修改密码</el-menu-item>
                 <el-menu-item index="1">你好，{{user.name}}</el-menu-item>
 
@@ -20,7 +20,7 @@
                         class="el-menu-vertical-demo">
                     <el-menu-item index="admin" @click="$router.push({path: '/admin'})">
                         <i class="el-icon-menu"></i>
-                        <span slot="title">用户登录</span>
+                        <span slot="title">用户管理</span>
                     </el-menu-item>
                     <el-menu-item index="manage" @click="$router.push({path: '/manage'})">
                         <i class="el-icon-setting"></i>
@@ -43,12 +43,32 @@
     export default{
         data() {
             return {
+                api: {
+                    logout: '/api/logout'
+                },
                 user: {
                     name: '陈智',
                     role_id: '1'
                 }
             }
-        }
+        },
+        methods: {
+            handleLogout() {
+                axios.post(this.api.logout).then(res => {
+                    console.log(res);
+                    if(res.data.code === 0){
+                        this.$router.push({path: '/login'})
+                    }
+                })
+            }
+        },
+        beforeRouteEnter (to, from, next) {
+            // 在渲染该组件的对应路由被 confirm 前调用
+            // 不！能！获取组件实例 `this`
+            // next({ path: '/login' })
+            console.log(to);
+            next();
+        },
     }
 </script>
 

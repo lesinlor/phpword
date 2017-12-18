@@ -30,12 +30,12 @@
                 <el-table-column label="操作">
                     <template slot-scope="scope">
                         <el-button
-                                size="mini"
-                                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                            size="mini"
+                            @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                         <el-button
-                                size="mini"
-                                type="danger"
-                                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                            size="mini"
+                            type="danger"
+                            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -43,7 +43,7 @@
         <el-row class="marginTop">
             <el-pagination
                     layout="sizes, prev, pager, next"
-                    :page-sizes="[20, 50, 100]"
+                    :page-sizes="[5, 50, 100]"
                     :page-size="limit"
                     :current-page="currentPage"
                     :total="pagination.sum"
@@ -68,8 +68,8 @@
                 </el-form-item>
                 <el-form-item label="角色权限" :label-width="formLabelWidth">
                     <el-select v-model="editForm.role_id">
-                        <el-option label="管理员" value="1"></el-option>
-                        <el-option label="普通" value="2"></el-option>
+                        <el-option label="管理员" value="2"></el-option>
+                        <el-option label="员工" value="3"></el-option>
                     </el-select>
                 </el-form-item>
             </el-form>
@@ -82,9 +82,14 @@
 </template>
 
 <script>
+    import qs from 'qs';
     export default{
         data() {
             return {
+                api: {
+                    get: '/api/user',
+                    post: 'api/user'
+                },
                 userGroup: [{
                     id: '',
                     nickname: '',
@@ -94,15 +99,15 @@
                 }],
                 editForm: {
                     id: '',
-                    name: '',
-                    user: '',
+                    nickname: '',
+                    username: '',
                     password: '',
                     role_id: ''
                 },
                 pagination: {
-                    sum: 20
+                    sum: 0
                 },
-                limit: 20,
+                limit: 5,
                 currentPage: 1,
                 dialogFormVisible: false,
                 formLabelWidth: '120px',
@@ -134,26 +139,57 @@
                 this.editForm.password = ''
                 this.dialogFormVisible = true
             },
-            handleDelete() {
+            handleDelete(index, row) {
+                let api = this.api.post
+                let form = row
+                form.flag = 0
                 this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
+                    axios.post(api, qs.stringify(form)).then(res => {
+                        console.log(res);
+                        this.reloadData()
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    })
+
                 })
             },
             handleSave() {
+                let api = this.api.post
                 this.dialogFormVisible = false
+                axios.post(api, qs.stringify(this.editForm)).then(res => {
+                    console.log(res);
+                    this.reloadData()
+                })
             },
             reloadData() {
-                axios.get('/api/user').then( res => {
-                    console.log(res);
+                let api = this.api.get
+                let params = {params: this.options}
+                console.log(this.options);
+                axios.get(api, params).then( res => {
                     this.userGroup = res.data.data
+                    this.pagination.sum = res.data.meta.total
                 })
+            }
+        },
+        beforeRouteEnter (to, from, next) {
+            // 在渲染该组件的对应路由被 confirm 前调用
+            // 不！能！获取组件实例 `this`
+            // 因为当守卫执行前，组件实例还没被创建
+            // next({ path: '/login'});
+            next();
+        },
+        computed: {
+            options() {
+                return {
+                    offset: (this.currentPage - 1) * this.limit,
+                    limit: this.limit
+                }
             }
         },
         created() {
