@@ -35,6 +35,22 @@ Route::group(['prefix' => 'api'], function (){
         return array('code' => 0, 'data' => $data);
     });
 
+    Route::any('/session', function(){
+        if(!$_SESSION['user_id']){
+             return response(json_encode(array('code'=>1001,'message'=>'请先登录')),403);
+        }
+        return response()->json(array(
+            'code'=> 0,
+            'data'=> array(
+                'user_id'=>(int)$_SESSION['user_id'],
+                'role_id'=>$_SESSION['role_id'],
+                'is_admin'=>$_SESSION['is_admin'],
+                'nickname'=>$_SESSION['nickname']
+            )
+        ));
+
+    });
+
     Route::post('/login', "LoginController@login");
 
     Route::post('/logout', "LoginController@logout");
@@ -50,9 +66,3 @@ Route::group(['prefix' => 'api'], function (){
     Route::post('/table/edit', "ConcordatController@edit");
 
 });
-
-Route::any('/test', function(){
-   $t = '2017-12-11';
-   dd(strtotime($t));
-});
-
