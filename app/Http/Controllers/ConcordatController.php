@@ -45,6 +45,8 @@ class ConcordatController extends Controller
             $type = \App\ConcordatType::all(array('id','name','flag'))->keyBy('id');
             foreach ($data as &$item){
                 $item['type_name'] = array_key_exists((int)$item['type'],$type) ? $type[(int)$item['type']]['name'] : '';
+                $item['st'] = date('Y-m-d',$item['st']);
+                $item['et'] = date('Y-m-d',$item['et']);
             }
             unset($item);
             $meta = array(
@@ -70,6 +72,8 @@ class ConcordatController extends Controller
             $type = \App\ConcordatType::all(array('id','name','flag'))->keyBy('id');
             if(array_key_exists((int)$data->type,$type))
                 $data->type_name = $type[(int)$data->type]['name'];
+            $data['st'] = date('Y-m-d',$data->st);
+            $data['et'] = date('Y-m-d',$data->et);
             unset($data['created_user_id']);
             unset($data['updated_user_id']);
             parent::success($data);
