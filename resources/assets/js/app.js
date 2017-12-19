@@ -20,6 +20,20 @@ import router from './router';
 
 Vue.use(ElementUI);
 
+router.beforeEach((to, from, next) => {
+    axios.get("/api/session").then((res)=>{
+        if(res.data.code === 0) {
+            let user = res.data.data
+            // admin必须是管理员
+            if( to.path == '/admin' && (user.role_id == 1 || user.role_id == 2) )next()
+            // 除admin
+            if( to.path != '/admin' ) next()
+        }else{
+            next({ path: '/login' })
+        }
+    })
+})
+
 const app = new Vue({
     el: '#app',
     router,

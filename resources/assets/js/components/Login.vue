@@ -66,6 +66,8 @@
                     console.log(res);
                     if(res.data.data){
                         this.$router.push({path: '/manage'});
+                    }else{
+                        this.$message.error(res.data.message);
                     }
                 })
             },

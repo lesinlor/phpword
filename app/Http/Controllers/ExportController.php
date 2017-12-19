@@ -11,6 +11,9 @@ class ExportController extends Controller
         parent::__construct();
     }
 
+    /**
+     * image size 413*585
+     */
     public function export(){
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
