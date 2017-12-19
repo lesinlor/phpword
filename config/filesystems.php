@@ -55,6 +55,12 @@ return [
             'visibility' => 'public',
         ],
 
+        'uploads' => [
+            'driver' => 'local',
+            'root' => public_path('contract'),
+            'url' => env('APP_URL').'/contract'
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_KEY'),
