@@ -38,9 +38,9 @@ class ImageController extends Controller
 
         $file=$request->file('img');//获取文件
         $folder = md5(time());
-        $savePath = $file->store($folder,'contract');
+        $savePath = $file->store($folder,'uploads');
         if($savePath)
-            $savePath .= '/contract/';
+            $savePath = '/contract/' . $savePath;
         return $savePath;
     }
 }
