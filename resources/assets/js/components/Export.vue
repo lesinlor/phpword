@@ -8,14 +8,27 @@
                 <el-row>
                     <p style="font-size: 16px">条件筛选</p>
                 </el-row>
+                <el-form-item label="评审编号">
+                    <el-input v-model="form.number"></el-input>
+                </el-form-item>
                 <el-form-item label="地区">
                     <el-input v-model="form.address"></el-input>
                 </el-form-item>
                 <el-form-item label="项目类型">
                     <el-select v-model="form.type">
                         <el-option :label="'全部'" :value="'0'"></el-option>
-                        <el-option :label="'保安'" :value="'sp'"></el-option>
-                        <el-option :label="'物业'" :value="'pm'"></el-option>
+                        <el-option :label="'保安'" :value="'保安'"></el-option>
+                        <el-option :label="'物业'" :value="'物业'"></el-option>
+                        <el-option :label="'清洁'" :value="'清洁'"></el-option>
+                        <el-option :label="'环卫'" :value="'环卫'"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="场所">
+                    <el-select v-model="form.site">
+                        <el-option :label="'学校'" :value="'学校'"></el-option>
+                        <el-option :label="'医院'" :value="'医院'"></el-option>
+                        <el-option :label="'政府'" :value="'政府'"></el-option>
+                        <el-option :label="'办公楼'" :value="'办公楼'"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="时间">
@@ -24,10 +37,10 @@
                     <el-date-picker type="date" v-model="form.et" value-format="yyyy-MM-dd"></el-date-picker>
                 </el-form-item>
                 <el-form-item label="时长">
-                    <el-select v-model="form.time_op">
+                    <el-select v-model="form.sop">
                         <el-option v-for="(item, key) in compare" :key="key" :label="item" :value="key"></el-option>
                     </el-select>
-                    <el-input v-model="form.time" placeholder="以月为单位"></el-input>
+                    <el-input v-model="form.section" placeholder="以月为单位"></el-input>
                 </el-form-item>
                 <el-form-item label="金额">
                     <el-select v-model="form.mop">
@@ -46,6 +59,15 @@
                         <el-option :label="'升序'" :value="'asc'"></el-option>
                         <el-option :label="'降序'" :value="'desc'"></el-option>
                     </el-select>
+                </el-form-item>
+                <el-form-item label="信息列表">
+                    <el-checkbox-group v-model="form.field">
+                        <el-checkbox label="name" name="field">项目名</el-checkbox>
+                        <el-checkbox label="sign" name="field">签约方</el-checkbox>
+                        <el-checkbox label="address" name="field">地址</el-checkbox>
+                        <el-checkbox label="money" name="field">金额</el-checkbox>
+                        <el-checkbox label="number" name="field">编号</el-checkbox>
+                    </el-checkbox-group>
                 </el-form-item>
                 <el-button type="primary" size="mini" class="marginTop" @click="onSubmit">搜索</el-button>
             </el-form>
@@ -72,16 +94,19 @@
                     exp: ''
                 },
                 form: {
+                    number: '',
                     address: '',
+                    site: '',
                     type: '0',
                     st: '',
                     et: '',
-                    time: '',
-                    time_op: 'gt',
+                    section: '',
+                    sop: 'gt',
                     money: '',
                     mop: 'gt',
                     name: '',
-                    sort: 'asc'
+                    sort: 'asc',
+                    field: []
                 },
                 data: [],
                 compare: {
@@ -101,6 +126,7 @@
                     id += this.data[i].id + ','
                 }
                 console.log(id);
+                console.log(this.form);
                 this.reloadData()
             },
             reloadData() {
@@ -118,9 +144,12 @@
     }
 </script>
 
-<style>
+<style scoped>
     .marginTop {
         margin-top: 10px;
+    }
+    .el-form-item {
+        margin-bottom: 10px;
     }
     .drag-table{
         border: 1px solid #eaecef;
