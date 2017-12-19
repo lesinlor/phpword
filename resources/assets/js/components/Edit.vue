@@ -41,6 +41,18 @@
             <el-form-item label="合同内容">
                 <el-input v-model="form.pic"></el-input>
             </el-form-item>
+            <el-upload
+                class="upload-demo"
+                action="/api/img/upload"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                multiple
+                :limit="3"
+                :on-exceed="handleExceed"
+                :file-list="fileList">
+                <el-button size="small" type="primary">点击上传</el-button>
+                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">保存</el-button>
             </el-form-item>
@@ -68,7 +80,8 @@
                     concat: '',
                     telephone: '',
                     pic: ''
-                }
+                },
+                fileList: []
             }
         },
         methods: {
@@ -89,18 +102,28 @@
                         this.$message({message: '请填写完整',type: 'warning'});
                     }
                 })
+            },
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePreview(file) {
+                console.log(file);
+            },
+            handleExceed(files, fileList) {
+                this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
             }
         },
         created() {
-            console.log(this.$route.params.id);
-            // if(this.$route.params.id){
-            //     let params = {
-            //         params: {c_id: this.$route.params.id}
-            //     }
-            //     axios.get(this.api.get, params).then(res => {
-            //         this.form = res.data.data
-            //     })
-            // }
+            let id = this.$route.params.id
+            console.log(id);
+            if(id != 0){
+                let params = {
+                    params: {id: id}
+                }
+                axios.get(this.api.get, params).then(res => {
+                    this.form = res.data.data
+                })
+            }
         }
     }
 </script>

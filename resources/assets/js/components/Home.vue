@@ -9,7 +9,7 @@
                 active-text-color="#ffd04b">
                 <el-menu-item index="3" @click="handleLogout">退出登录</el-menu-item>
                 <el-menu-item index="2">修改密码</el-menu-item>
-                <el-menu-item index="1">你好，{{user.name}}</el-menu-item>
+                <el-menu-item index="1">你好，{{user.nickname}}</el-menu-item>
 
             </el-menu>
         </el-header>
@@ -18,7 +18,10 @@
                 <el-menu
                         default-active="manage"
                         class="el-menu-vertical-demo">
-                    <el-menu-item index="admin" @click="$router.push({path: '/admin'})">
+                    <el-menu-item
+                        index="admin"
+                        @click="$router.push({path: '/admin'})"
+                        v-if="user.role_id == 1 || user.role_id == 2">
                         <i class="el-icon-menu"></i>
                         <span slot="title">用户管理</span>
                     </el-menu-item>
@@ -47,7 +50,7 @@
                     logout: '/api/logout'
                 },
                 user: {
-                    name: '陈智',
+                    nickname: '陈智',
                     role_id: '1'
                 }
             }
@@ -62,13 +65,12 @@
                 })
             }
         },
-        beforeRouteEnter (to, from, next) {
-            // 在渲染该组件的对应路由被 confirm 前调用
-            // 不！能！获取组件实例 `this`
-            // next({ path: '/login' })
-            console.log(to);
-            next();
-        },
+        created() {
+            axios.get('/api/session').then( res => {
+                this.user = res.data.data
+                console.log(this.user.role_id);
+            })
+        }
     }
 </script>
 
