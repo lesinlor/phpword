@@ -8,7 +8,7 @@
                 text-color="#fff"
                 active-text-color="#ffd04b">
                 <el-menu-item index="3" @click="handleLogout">退出登录</el-menu-item>
-                <el-menu-item index="2">修改密码</el-menu-item>
+                <el-menu-item index="2" @click="handleEdit">修改密码</el-menu-item>
                 <el-menu-item index="1">你好，{{user.nickname}}</el-menu-item>
 
             </el-menu>
@@ -39,6 +39,17 @@
                 <router-view></router-view>
             </el-main>
         </el-container>
+        <el-dialog title="修改密码" :visible.sync="dialogFormVisible" width="400px">
+          <el-form :model="form">
+            <el-form-item label="新密码" :label-width="'80px'">
+              <el-input type="password" v-model="form.password" auto-complete="off"></el-input>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="handleSubmit">确 定</el-button>
+          </div>
+        </el-dialog>
     </el-container>
 </template>
 
@@ -47,12 +58,18 @@
         data() {
             return {
                 api: {
-                    logout: '/api/logout'
+                    logout: '/api/logout',
+                    edit: '/api/user'
                 },
                 user: {
-                    nickname: '陈智',
-                    role_id: '1'
-                }
+                    nickname: '',
+                    role_id: ''
+                },
+                form: {
+                    id: '',
+                    password: ''
+                },
+                dialogFormVisible: false
             }
         },
         methods: {
@@ -63,11 +80,29 @@
                         this.$router.push({path: '/login'})
                     }
                 })
+            },
+            handleEdit() {
+                this.dialogFormVisible = true
+            },
+            handleSubmit() {
+                let api = this.api.edit
+                axios.post(api, qs.stringify(this.form)).then(res => {
+                    if(res.data.code == 0){
+                        this.dialogFormVisible = false
+                        this.$message({
+                            message: '修改密码成功！',
+                            type: 'success'
+                        });
+                    }else{
+                        this.$message.error('修改失败！');
+                    }
+                })
             }
         },
         created() {
             axios.get('/api/session').then( res => {
                 this.user = res.data.data
+                this.form.id = res.data.data.user_id
                 console.log(this.user.role_id);
             })
         }

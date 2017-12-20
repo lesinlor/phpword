@@ -88,7 +88,7 @@
             return {
                 api: {
                     get: '/api/user',
-                    post: 'api/user'
+                    post: '/api/user'
                 },
                 userGroup: [{
                     id: '',

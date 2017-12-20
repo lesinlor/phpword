@@ -38,8 +38,8 @@
             <el-form-item label="联系人电话">
                 <el-input v-model="form.telephone"></el-input>
             </el-form-item>
-            <el-form-item label="合同内容">
-                <el-upload
+            <el-form-item label="上传图片">
+                <!-- <el-upload
                     class="upload-demo"
                     action="/api/img/upload"
                     :on-preview="handlePreview"
@@ -50,9 +50,23 @@
                     :file-list="fileList">
                     <el-button size="small" type="primary">点击上传</el-button>
                     <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                </el-upload> -->
+                <el-upload
+                  class="upload-demo"
+                  drag
+                  action="/api/img/upload"
+                  multiple
+                  :on-success="uploadSuccess">
+                  <i class="el-icon-upload"></i>
+                  <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
                 </el-upload>
             </el-form-item>
-
+            <el-form-item label="合同内容">
+                <draggable v-model="form.fileList">
+                    <div v-for="item in form.fileList" class="drag-table"><img class="draggable-img" :src="item"/></div>
+                </draggable>
+            </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">保存</el-button>
             </el-form-item>
@@ -61,7 +75,11 @@
 </template>
 
 <script>
+    import draggable from 'vuedraggable'
     export default{
+        components: {
+            draggable,
+        },
         data() {
             return {
                 api: {
@@ -78,9 +96,10 @@
                     et: '',
                     grade: '',
                     concat: '',
-                    telephone: ''
+                    telephone: '',
+                    fileList: []
+
                 },
-                fileList: []
             }
         },
         methods: {
@@ -110,6 +129,10 @@
             },
             handleExceed(files, fileList) {
                 this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            },
+            uploadSuccess(res, file, fileList) {
+                console.log(res);
+                this.form.fileList.push(res)
             }
         },
         created() {
@@ -126,3 +149,10 @@
         }
     }
 </script>
+
+<style scoped>
+    .draggable-img{
+        width: 400px;
+        cursor: move;
+    }
+</style>
