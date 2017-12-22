@@ -57,6 +57,8 @@ Route::group(['prefix' => 'api'], function (){
 
     Route::any('/img/upload', "ImageController@upload");
 
+    Route::any('/img/store', "ImageController@store");
+
     Route::get('/table/list', "ConcordatController@all");
 
     Route::get('/table/detail', "ConcordatController@show");

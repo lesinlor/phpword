@@ -15,9 +15,10 @@ class CreateConcordatImgTable extends Migration
     {
         Schema::create('concordat_img', function (Blueprint $table){
             $table->increments('id');
-            $table->integer('con_id')->notnull();
+            $table->integer('concordat_id')->notnull();
+            $table->string('directory', 255)->notnull()->defalut('/');
             $table->integer('sort')->notnull();
-            $table->string('content')->notnull();
+            $table->string('path')->notnull();
             $table->integer('created_user_id')->default(0);
             $table->integer('updated_user_id')->default(0);
             $table->timestamps();

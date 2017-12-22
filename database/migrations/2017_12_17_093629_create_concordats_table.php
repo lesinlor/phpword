@@ -15,10 +15,11 @@ class CreateConcordatsTable extends Migration
     {
         Schema::create('concordats', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 60)->unique()->notnull()->default('');
+            $table->string('name', 60)->notnull()->default('');
             $table->string('address', 512)->notnull()->default('');
             $table->integer('type')->notnull()->default(1); //默认为其他
-            $table->float('money')->notnull()->defualt(0.00);
+//            $table->float('money',13,2)->notnull()->defualt(0.00);
+            $table->string('money',16)->notnull()->default(0);
             $table->integer('st')->notnull()->default(0);
             $table->integer('et')->notnull()->default(0);
             $table->integer('section')->notnull()->default(0);

@@ -29,7 +29,11 @@ return [
         'userNotExists' => 3003, //用户不存在
         'incorrectPassword' => 3004, //密码不正确
         'uploadImageFail' => 4001, //上传图片失败,
-        'addConcordatFail' => 4002
+        'imageExtensionInvalid' => 4002, //图片格式错误
+        'imageSizeIsTooLarge' => 4003, //图片内容过大
+        'imageNotExists' => 4004, //图片不存在
+        'deleteImageFail' => 4005, //删除图片失败
+        'addConcordatFail' => 4015
     ),
     'concordatPath' => 'concordat'
 ];

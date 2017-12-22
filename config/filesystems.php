@@ -58,7 +58,7 @@ return [
         'uploads' => [
             'driver' => 'local',
             'root' => public_path('contract'),
-            'url' => env('APP_URL').'/contract'
+            'url' => env('APP_URL')
         ],
 
         's3' => [
