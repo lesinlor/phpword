@@ -14,6 +14,8 @@ class Role extends Model
         'created_at','flag','updated_at','created_user_id','updated_user_id'
     ];
 
+    protected $guarded = [];
+
     public function menus($role){
         $item = $this->find($role);
         $menus = $item->role_auth;

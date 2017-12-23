@@ -69,9 +69,13 @@ Route::group(['prefix' => 'api'], function (){
 
     Route::any('/export', "ExportController@table");
 
+    Route::any('/export/pic', "ExportController@pic");
+
+    Route::get('/export/column', "ExportController@column");
+
 });
 
 Route::any('/test', function(){
-    $c = new \App\Concordat();
-    dd($c->first()->images);
+    $data = \Illuminate\Support\Facades\DB::select('show full fields from concordats');
+    dd($data);
 });

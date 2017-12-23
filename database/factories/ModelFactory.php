@@ -12,7 +12,7 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(\App\User::class, function (Faker\Generator $faker) {
 
     return [
         'nickname' => $faker->lastName,
@@ -28,11 +28,10 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 /**
  * 生成角色
  */
-$factory->define(APP\Role::class, function (Faker\Generator $faker){
+$factory->define(App\Role::class, function (Faker\Generator $faker){
     return [
-        'role_name' => $faker->randomElement(array('超级管理员','管理员','员工组')),
+        'role_name' => $faker->unique()->lastName,
         'role_auth' => '[*]',
         'flag' => 1
     ];
 });
-
