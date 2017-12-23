@@ -54,6 +54,8 @@
                 <el-upload
                   class="upload-demo"
                   drag
+                  :data="imgId"
+                  :disabled="false"
                   action="/api/img/upload"
                   multiple
                   :on-success="uploadSuccess">
@@ -98,7 +100,6 @@
                     concat: '',
                     telephone: '',
                     fileList: []
-
                 },
             }
         },
@@ -116,7 +117,10 @@
                                 this.$router.push({path: '/manage'})
                             }
                         });
-                    }else{
+                    }else if(res.data.code === 201){
+                        this.form.id = res.data.id
+                    }
+                    else{
                         this.$message({message: '请填写完整',type: 'warning'});
                     }
                 })
@@ -132,7 +136,13 @@
             },
             uploadSuccess(res, file, fileList) {
                 console.log(res);
+                console.log(this.form.fileList);
                 this.form.fileList.push(res)
+            }
+        },
+        computed: {
+            imgId() {
+                return {id: this.form.id}
             }
         },
         created() {
@@ -143,7 +153,9 @@
                     params: {id: id}
                 }
                 axios.get(this.api.get, params).then(res => {
-                    this.form = res.data.data
+                    for(let i in res.data.data)
+                        this.form[i] = res.data.data[i]
+                    this.form.fileList = []
                 })
             }
         }
