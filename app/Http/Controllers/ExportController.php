@@ -28,4 +28,33 @@ class ExportController extends Controller
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save('helloWorld.doc');
     }
+
+    public function table(){
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $tableStyle = array(
+            'borderColor' => '55A457',
+            'borderSize'  => 6,
+            'cellMargin'  => 50
+        );
+        $firstRowStyle = array('bgColor' => 'CDFECE');
+        $phpWord->addTableStyle('myTable', $tableStyle, $firstRowStyle);
+        $header = array('size' => 16, 'bold' => true, 'color'=> '55A457');
+        $section->addText('业绩一览表（248个）', $header,array('alignment'=>'center'));
+        $section->addText('');
+        $section->addText('');
+        $table = $section->addTable('myTable');
+        $table->addRow();
+        for($c = 1; $c<=7; $c++){
+            $table->addCell(1750)->addText("测试");
+        }
+        for ($r = 1; $r <= 8; $r++) {
+            $table->addRow();
+            for ($c = 1; $c <= 7; $c++) {
+                $table->addCell(1750)->addText("Row {$r}, Cell {$c}");
+            }
+        }
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save('helloWorld.doc');
+    }
 }

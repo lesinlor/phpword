@@ -67,4 +67,11 @@ Route::group(['prefix' => 'api'], function (){
 
     Route::post('/table/edit', "ConcordatController@edit");
 
+    Route::any('/export', "ExportController@table");
+
+});
+
+Route::any('/test', function(){
+    $c = new \App\Concordat();
+    dd($c->first()->images);
 });

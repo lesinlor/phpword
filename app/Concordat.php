@@ -14,6 +14,10 @@ class Concordat extends Model
 
     ];
 
+    public function images(){
+        return $this->hasMany('App\ConcordatImg','concordat_id');
+    }
+
     /**
      * 查询合同列表
      * @param $param

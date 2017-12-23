@@ -12,6 +12,10 @@ class ConcordatImg extends Model
 
     ];
 
+    protected $hidden = [
+        'created_user_id','updated_user_id','created_at','updated_at'
+    ];
+
 
     /**
      * 删除图片

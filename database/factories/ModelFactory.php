@@ -15,11 +15,24 @@
 $factory->define(App\User::class, function (Faker\Generator $faker) {
 
     return [
-        'name' => $faker->unique()->name,
-        'password' => bcrypt('secret'),
-        'flag' => 1,
+        'nickname' => $faker->lastName,
+        'username' => $faker->unique()->lastName,
+        'password' => md5('123456'.config('app.key')),
+        'role_id' => $faker->randomElement(array(1,2,3)),
         'created_user_id' => 1,
         'updated_user_id' => 1,
-        'role_id' => mt_rand(1,2)
+        'flag' => 1
     ];
 });
+
+/**
+ * 生成角色
+ */
+$factory->define(APP\Role::class, function (Faker\Generator $faker){
+    return [
+        'role_name' => $faker->randomElement(array('超级管理员','管理员','员工组')),
+        'role_auth' => '[*]',
+        'flag' => 1
+    ];
+});
+
