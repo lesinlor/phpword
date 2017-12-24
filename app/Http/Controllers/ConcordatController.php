@@ -73,14 +73,25 @@ class ConcordatController extends Controller
             parent::fail($this->errorCode['paramError'],'参数错误');
         $data = $this->concordat->find($c_id);
         if($data){
-            $type = \App\ConcordatType::all(array('id','name','flag'))->keyBy('id');
-            if(array_key_exists((int)$data->type,$type))
-                $data->type_name = $type[(int)$data->type]['name'];
-            $data['st'] = date('Y-m-d',$data->st);
-            $data['et'] = date('Y-m-d',$data->et);
-            unset($data['created_user_id']);
-            unset($data['updated_user_id']);
-            parent::success($data);
+//            $type = \App\ConcordatType::all(array('id','name','flag'))->keyBy('id');
+//            if(array_key_exists((int)$data->type,$type))
+//                $data->type_name = $type[(int)$data->type]['name'];
+            $detail = $data->toArray();
+            $detail['st'] = date('Y-m-d',$data->st);
+            $detail['et'] = date('Y-m-d',$data->et);
+            unset($detail['created_user_id']);
+            unset($detail['updated_user_id']);
+            /*************获取合同图片*********/
+            $imgs = $data->images()->get(['directory','path']);
+            if($imgs){
+                foreach ($imgs as $item){
+                    $detail['files'][] = '/contract/'.$item->directory .'/'.$item->path;
+                }
+            }else{
+                $detail['files'] = [];
+            }
+            /*************获取合同图片*********/
+            parent::success($detail);
         }
         parent::fail($this->errorCode['noContent'],'暂无相关数据');
     }
