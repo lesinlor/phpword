@@ -35,21 +35,7 @@ Route::group(['prefix' => 'api'], function (){
         return array('code' => 0, 'data' => $data);
     });
 
-    Route::any('/session', function(){
-        if(!$_SESSION['user_id']){
-             return response(json_encode(array('code'=>1001,'message'=>'请先登录')),403);
-        }
-        return response()->json(array(
-            'code'=> 0,
-            'data'=> array(
-                'user_id'=>(int)$_SESSION['user_id'],
-                'role_id'=>$_SESSION['role_id'],
-                'is_admin'=>$_SESSION['is_admin'],
-                'nickname'=>$_SESSION['nickname']
-            )
-        ));
-
-    });
+    Route::any('/session', "LoginController@info");
 
     Route::post('/login', "LoginController@login");
 
@@ -76,6 +62,5 @@ Route::group(['prefix' => 'api'], function (){
 });
 
 Route::any('/test', function(){
-    $data = \Illuminate\Support\Facades\DB::select('show full fields from concordats');
-    dd($data);
+    dd(session()->all());
 });

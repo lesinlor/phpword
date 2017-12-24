@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-card class="box-card login-cont">
-            <p>登录</p>
+            <p style="text-align: center">登录智平台管理系统</p>
             <el-form :model="form" :rules="rules" ref="ruleForm" label-position="left" label-width="0px">
                 <el-form-item prop="user" class="login-item">
                     <el-input
@@ -23,7 +23,7 @@
                             <!--v-model="form.code">-->
                     <!--</el-input>-->
                 <!--</el-form-item>-->
-                <el-button type="primary" @click="handleSubmit">登录</el-button>
+                <el-button type="primary" @click="handleSubmit" style="margin-left: 150px;">登录</el-button>
             </el-form>
         </el-card>
 
@@ -83,7 +83,7 @@
 
 <style>
     .login-cont{
-        width: 600px;
+        width: 400px;
         margin: 0 auto;
         margin-top: 300px;
     }

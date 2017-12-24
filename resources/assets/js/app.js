@@ -21,6 +21,10 @@ import router from './router';
 Vue.use(ElementUI);
 
 router.beforeEach((to, from, next) => {
+    if(to.path == '/login'){
+        next()
+        return
+    }
     axios.get("/api/session").then((res)=>{
         if(res.data.code === 0) {
             let user = res.data.data
@@ -31,6 +35,11 @@ router.beforeEach((to, from, next) => {
         }else{
             next({ path: '/login' })
         }
+    }).catch(err => {
+        if(to.path == '/login'){
+            next()
+        }
+        next('/login')
     })
 })
 

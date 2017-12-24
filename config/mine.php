@@ -10,12 +10,12 @@ return [
     /*不记录日志*/
     'unTrace' => array(
         '/',
-        'api/login',
-        'api/logout'
+        '/api/login',
+        '/api/logout'
     ),
     /*不需要权限可以请求*/
     'unPermission' => array(
-        'api/login'
+        '/api/login'
     ),
     'errorCode' => array(
         'noAuth' => 1001, //未登录

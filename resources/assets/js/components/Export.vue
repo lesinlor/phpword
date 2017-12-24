@@ -4,10 +4,11 @@
             <p style="font-size: 20px">合同导出</p>
         </el-row>
         <el-card class="box-card marginTop">
-            <el-form ref="form" :model="form" label-width="80px" :label-position="'left'">
-                <el-row>
-                    <p style="font-size: 16px">条件筛选</p>
-                </el-row>
+            <el-row>
+                <p style="font-size: 16px">条件筛选  <el-button type="text" @click="show = !show">{{show ? '隐藏' : '展开'}}</el-button></p>
+            </el-row>
+            <transition name="el-zoom-in-top">
+                <el-form ref="form" :model="form" label-width="80px" :label-position="'left'" v-show="show">
                 <el-form-item label="评审编号">
                     <el-input v-model="form.number"></el-input>
                 </el-form-item>
@@ -69,8 +70,18 @@
                         <el-checkbox label="number" name="field">编号</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
+
+                <el-form-item label="导出形式">
+                    <el-select v-model="form.name">
+                        <el-option :label="'全部导出'" :value="'price'"></el-option>
+                        <el-option :label="'导出表格'" :value="'st'"></el-option>
+                        <el-option :label="'导出合同'" :value="'et'"></el-option>
+                    </el-select>
+                </el-form-item>
+
                 <el-button type="primary" size="mini" class="marginTop" @click="onSubmit">搜索</el-button>
             </el-form>
+            </transition>
         </el-card>
         <el-row class="marginTop">
             <draggable v-model="data">
@@ -109,6 +120,7 @@
                     field: []
                 },
                 data: [],
+                show: false,
                 compare: {
                     gt: '>',
                     lt: '<',
