@@ -33,11 +33,10 @@ class LoginController extends Controller
         if($data->password != md5($password.config('app.key'))){
             parent::fail($this->errorCode['incorrectPassword'],'密码有误');
         }
-        $request->session()->put('user_id',$data->id);
-        $request->session()->put('nickname',$data->nickname);
-        $request->session()->put('role_id',$data->role_id);
-        $request->session()->put('is_admin',$data->is_admin);
-
+        $_SESSION['user_id'] = (int)$data->id;
+        $_SESSION['nickname'] = $data->nickname;
+        $_SESSION['role_id'] = $data->role_id;
+        $_SESSION['is_admin'] = $data->is_admin == 1 ? 1:0;
         $data->last_login_at = time();
         $data->last_login_ip = $_SERVER['REMOTE_ADDR'];
         $data->save();
@@ -48,20 +47,23 @@ class LoginController extends Controller
     }
 
     public function logout(){
-        session()->flush();
+        unset($_SESSION['user_id']);
+        unset($_SESSION['role_id']);
+        unset($_SESSION['nickname']);
+        unset($_SESSION['is_admin']);
         parent::success();
     }
 
     public function info(){
-        if(!session('user_id')){
+        if(!isset($_SESSION['user_id'])){
             header('HTTP/1.1 403');
             parent::fail($this->errorCode['noAuth'],'请先登录');
         }
         $data = array(
-            'user_id'=>(int)session('user_id'),
-            'role_id'=>(int)session('role_id'),
-            'is_admin'=>(int)session('is_admin'),
-            'nickname'=>session('nickname')
+            'user_id'=>(int)$_SESSION['user_id'],
+            'role_id'=>(int)$_SESSION['role_id'],
+            'is_admin'=>(int)$_SESSION['is_admin'],
+            'nickname'=>$_SESSION['nickname']
         );
         parent::success($data);
     }

@@ -30,7 +30,7 @@ class Controller extends BaseController
         if(in_array(Request::getRequestUri(),$route))
             return true;
         /********用户未登录,返回403*********/
-        if(!session('user_id')){
+        if(!$_SESSION['user_id']){
             header('HTTP/1.1 403');
             self::fail($this->errorCode['noAuth'],'请先登录');
         }
