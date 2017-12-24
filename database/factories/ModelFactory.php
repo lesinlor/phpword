@@ -17,7 +17,7 @@ $factory->define(\App\User::class, function (Faker\Generator $faker) {
     return [
         'nickname' => $faker->lastName,
         'username' => $faker->unique()->lastName,
-        'password' => md5('123456'.config('app.key')),
+        'password' => md5('woshengri'.config('app.key')),
         'role_id' => $faker->randomElement(array(1,2,3)),
         'created_user_id' => 1,
         'updated_user_id' => 1,

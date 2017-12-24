@@ -75,12 +75,11 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     private function _autoTrace(){
-
         $route = config('mine.unTrace');
         /**
          * 判断该请求是否需要写入日志,超级管理员日志不需要进行记录
          */
-        if(!in_array(Request::getRequestUri(),$route) && $_SESSION['user_id'] != 1){
+        if(!in_array(Request::getRequestUri(),$route) && session('user_id', '') && session('user_id') != 1){
             if(self::$logModel == null){
                 self::$logModel = new AdminLog();
             }

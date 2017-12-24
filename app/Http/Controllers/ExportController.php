@@ -44,9 +44,10 @@ class ExportController extends Controller
     }
 
     /**
-     * image size 413*585
+     * 导出
+     * @param Request $request
      */
-    public function export(){
+    public function export(Request $request){
         $validator = Validator::make($request->all(),[
             'id' =>  'required',
             'field' => 'required|string'

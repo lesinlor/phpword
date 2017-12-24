@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -11,10 +12,12 @@ class LoginController extends Controller
         parent::__construct();
     }
 
-    public function login(){
+    /**
+     *
+     */
+    public function login(Request $request){
         $username = parent::rq('username');
         $password = parent::rq('password');
-
         if(empty($username) || !preg_match("/^[a-zA-Z]{1}\w{3,10}/",$username)){
             parent::fail($this->errorCode['invalidUserName'],'用户名格式错误');
         }
@@ -30,10 +33,11 @@ class LoginController extends Controller
         if($data->password != md5($password.config('app.key'))){
             parent::fail($this->errorCode['incorrectPassword'],'密码有误');
         }
-        $_SESSION['user_id'] = $data->id;
-        $_SESSION['nickname'] = $data->nickname;
-        $_SESSION['role_id'] = $data->role_id;
-        $_SESSION['is_admin'] = $data->role_id == 1 ? 1 : 0;
+        $request->session()->put('user_id',$data->id);
+        $request->session()->put('nickname',$data->nickname);
+        $request->session()->put('role_id',$data->role_id);
+        $request->session()->put('is_admin',$data->is_admin);
+
         $data->last_login_at = time();
         $data->last_login_ip = $_SERVER['REMOTE_ADDR'];
         $data->save();
@@ -44,8 +48,22 @@ class LoginController extends Controller
     }
 
     public function logout(){
-        $_SESSION = null;
+        session()->flush();
         parent::success();
+    }
+
+    public function info(){
+        if(!session('user_id')){
+            header('HTTP/1.1 403');
+            parent::fail($this->errorCode['noAuth'],'请先登录');
+        }
+        $data = array(
+            'user_id'=>(int)session('user_id'),
+            'role_id'=>(int)session('role_id'),
+            'is_admin'=>(int)session('is_admin'),
+            'nickname'=>session('nickname')
+        );
+        parent::success($data);
     }
 
 }

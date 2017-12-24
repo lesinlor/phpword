@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
 
 class Controller extends BaseController
 {
@@ -29,7 +30,7 @@ class Controller extends BaseController
         if(in_array(Request::getRequestUri(),$route))
             return true;
         /********用户未登录,返回403*********/
-        if(!isset($_SESSION['user_id'])){
+        if(!session('user_id')){
             header('HTTP/1.1 403');
             self::fail($this->errorCode['noAuth'],'请先登录');
         }

@@ -11,9 +11,6 @@
 |
 */
 
-//开启session
-session_start();
-
 
 $app = new Illuminate\Foundation\Application(
     realpath(__DIR__.'/../')
