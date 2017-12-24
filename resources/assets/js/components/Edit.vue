@@ -66,7 +66,7 @@
             </el-form-item>
             <el-form-item label="合同内容">
                 <draggable v-model="form.fileList">
-                    <div v-for="item in form.fileList" class="drag-table"><img class="draggable-img" :src="item"/></div>
+                    <div v-for="item in form.fileList" class="drag-table"><img class="draggable-img" :src="item.message"/></div>
                 </draggable>
             </el-form-item>
             <el-form-item>

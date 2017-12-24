@@ -4,6 +4,16 @@
             <p style="font-size: 20px">合同管理</p>
         </el-row>
         <el-row class="marginTop">
+        <el-row class="tab-header">
+            类型：
+            <el-select v-model="type" @change="reloadData">
+                <el-option :label="'全部'" :value="0"></el-option>
+                <el-option :label="'保安'" :value="'保安'"></el-option>
+                <el-option :label="'物业'" :value="'物业'"></el-option>
+            </el-select>
+        </el-row>
+        </el-row>
+        <el-row class="marginTop">
             <el-button @click="handleAdd">新增项目</el-button>
         </el-row>
         <el-row class="marginTop">
@@ -98,6 +108,7 @@
                 pagination: {
                     sum: 20
                 },
+                type: 0,
                 limit: 20,
                 currentPage: 1,
             }
@@ -141,14 +152,20 @@
                 let params = {params: this.options}
                 console.log(this.options);
                 axios.get(api, params).then( res => {
-                    this.data = res.data.data
-                    this.pagination.sum = res.data.meta.total
+                    if(res.data.data){
+                        this.data = res.data.data
+                        this.pagination.sum = res.data.meta.total
+                    }else{
+                        this.data = []
+                        this.pagination.sum = 0
+                    }
                 })
             }
         },
         computed: {
             options() {
                 return {
+                    type: this.type,
                     offset: (this.currentPage - 1) * this.limit,
                     limit: this.limit
                 }
@@ -167,5 +184,10 @@
 <style scoped>
     .marginTop {
         margin-top: 10px;
+    }
+    .tab-header {
+        padding: 15px;
+        background-color: #f2f2f2;
+        border-radius: 5px;
     }
 </style>

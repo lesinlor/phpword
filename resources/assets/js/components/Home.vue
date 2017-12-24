@@ -10,7 +10,6 @@
                 <el-menu-item index="3" @click="handleLogout">退出登录</el-menu-item>
                 <el-menu-item index="2" @click="handleEdit">修改密码</el-menu-item>
                 <el-menu-item index="1">你好，{{user.nickname}}</el-menu-item>
-
             </el-menu>
         </el-header>
         <el-container>
@@ -96,6 +95,9 @@
                     }else{
                         this.$message.error('修改失败！');
                     }
+                }).catch(res => {
+                    console.log(res);
+                    this.$message.error('系统错误');
                 })
             }
         },
