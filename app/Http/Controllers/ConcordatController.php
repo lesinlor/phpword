@@ -97,7 +97,14 @@ class ConcordatController extends Controller
             'et' => 'required|date_format:Y-m-d',
             'grade' => 'required|integer',
             'concat' => 'required|string',
-            'telephone' => 'required'
+            'telephone' => 'required',
+            'signature' => 'required',
+            'per_money' => 'required',
+            'batch' => 'required',
+            'area' => 'required',
+            'charge' => 'required',
+            'subject' => 'required',
+            'place' => 'required'
         ]);
 
         $this->concordat->name = parent::rq('name');
@@ -110,8 +117,18 @@ class ConcordatController extends Controller
         $this->concordat->telephone = parent::rq('telephone');
         $this->concordat->created_user_id = $_SESSION['user_id'];
         $this->concordat->updated_user_id = $_SESSION['user_id'];
+        $this->concordat->signature = parent::rq('signature');
+        $this->concordat->per_money = parent::rq('per_money');
+        $this->concordat->batch = parent::rq('batch');
+        $this->concordat->area = parent::rq('area');
+        $this->concordat->area = parent::rq('charge');
+        $this->concordat->subject = parent::rq('subject');
+        $this->concordat->place = parent::rq('place');
+        $this->concordat->comment = parent::rq('comment');
         if($this->concordat->save())
-            parent::success();
+            parent::success(array(
+                'id' => $this->concordat->id
+            ));
         parent::fail($this->errorCode['addConcordatFail'],'更新合同失败');
 
     }

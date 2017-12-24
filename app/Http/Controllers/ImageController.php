@@ -22,7 +22,7 @@ class ImageController extends Controller
         ini_set('upload_max_filesize',10 * 1024 * 1024);
 
         $file = $request->file('file');//获取文件
-        $name = parent::rq('token');
+        $name = parent::rq('id');
         if(!$file || !$name){
             parent::fail($this->errorCode['paramError'],'参数错误');
         }
@@ -35,7 +35,7 @@ class ImageController extends Controller
             parent::fail($this->errorCode['imageExtensionInvalid'], '图片格式错误');
         }
 
-        $folder = md5($name.time());
+        $folder = md5($name);
         $savePath = $file->store($folder,'uploads');
         if(!$savePath)
             parent::fail($this->errorCode['uploadImageFail'], '图片上传失败');
