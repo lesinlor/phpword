@@ -38,8 +38,7 @@
                 api: '/api/login',
                 form: {
                     username: '',
-                    password: '',
-                    code: ''
+                    password: ''
                 },
                 rules: {
                     username: [{

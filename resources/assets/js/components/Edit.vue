@@ -38,6 +38,33 @@
             <el-form-item label="联系人电话">
                 <el-input v-model="form.telephone"></el-input>
             </el-form-item>
+            <el-form-item label="签约方">
+                <el-input v-model="form.signature"></el-input>
+            </el-form-item>
+            <el-form-item label="合同单价">
+                <el-input v-model="form.per_money"></el-input>
+            </el-form-item>
+            <el-form-item label="评审编号">
+                <el-input v-model="form.batch"></el-input>
+            </el-form-item>
+            <el-form-item label="物业面积">
+                <el-input v-model="form.area"></el-input>
+            </el-form-item>
+            <el-form-item label="单位面积">
+                <el-input v-model="form.area_unit"></el-input>
+            </el-form-item>
+            <el-form-item label="分管情况">
+                <el-input v-model="form.charge"></el-input>
+            </el-form-item>
+            <el-form-item label="标的情况">
+                <el-input v-model="form.subject"></el-input>
+            </el-form-item>
+            <el-form-item label="场所">
+                <el-input v-model="form.place"></el-input>
+            </el-form-item>
+            <el-form-item label="备注">
+                <el-input v-model="form.comment"></el-input>
+            </el-form-item>
             <el-form-item label="上传图片">
                 <!-- <el-upload
                     class="upload-demo"
@@ -66,7 +93,7 @@
             </el-form-item>
             <el-form-item label="合同内容">
                 <draggable v-model="form.fileList">
-                    <div v-for="item in form.fileList" class="drag-table"><img class="draggable-img" :src="item.message"/></div>
+                    <div v-for="item in form.fileList" class="drag-table"><img class="draggable-img" :src="item"/></div>
                 </draggable>
             </el-form-item>
             <el-form-item>
@@ -87,7 +114,8 @@
                 api: {
                     get: '/api/table/detail',
                     store: '/api/table/store',
-                    edit: '/api/table/edit'
+                    edit: '/api/table/edit',
+                    imgStore: '/api/img/store'
                 },
                 form: {
                     id: '',
@@ -99,30 +127,55 @@
                     grade: '',
                     concat: '',
                     telephone: '',
+                    signature: '',
+                    per_money: '',
+                    batch: '',
+                    area: '',
+                    area_unit: '',
+                    charge: '',
+                    subject: '',
+                    place: '',
+                    comment: '',
+                    token: '',
                     fileList: []
                 },
             }
         },
         methods: {
             onSubmit() {
-                console.log(this.form);
                 let api = this.form.id ? this.api.edit : this.api.store
-                console.log(qs);
                 axios.post(api, qs.stringify(this.form)).then(res => {
-                    if (res.data.code === 0){
+                    console.log(this.form.fileList.length > 0);
+
+                    // 新增
+                    if( !this.form.id && res.data.code === 0){
+                        this.form.id = res.data.id
+                        this.form.token = res.data.token
+                        this.$message({
+                            message: '保存成功，继续添加图片',
+                            type: 'success'
+                        });
+                    }else if (res.data.code === 0){
                         // this.$message({message: '添加成功',type: 'success'});
                         this.$alert('修改成功', '消息', {
                             confirmButtonText: '返回',
-                            callback: action => {
-                                this.$router.push({path: '/manage'})
-                            }
+                            // callback: action => {
+                            //     this.$router.push({path: '/manage'})
+                            // }
                         });
-                    }else if(res.data.code === 201){
-                        this.form.id = res.data.id
                     }
                     else{
                         this.$message({message: '请填写完整',type: 'warning'});
                     }
+                    console.log(this.form.fileList.length > 0);
+                    // 提交图片接口
+                    if(this.form.fileList.length > 0){
+                        axios.post(this.api.imgStore, qs.stringify(this.imgParams)).then(res => {
+                            console.log(res);
+                        })
+                    }
+                }).catch(res => {
+                    this.$message({message: '请填写完整',type: 'warning'});
                 })
             },
             handleRemove(file, fileList) {
@@ -137,12 +190,18 @@
             uploadSuccess(res, file, fileList) {
                 console.log(res);
                 console.log(this.form.fileList);
-                this.form.fileList.push(res)
+                this.form.fileList.push(res.data)
             }
         },
         computed: {
             imgId() {
                 return {id: this.form.id}
+            },
+            imgParams() {
+                return {
+                    id: this.form.id,
+                    files: this.form.fileList
+                }
             }
         },
         created() {

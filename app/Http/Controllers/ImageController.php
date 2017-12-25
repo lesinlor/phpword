@@ -57,13 +57,14 @@ class ImageController extends Controller
             parent::fail($this->errorCode['paramError'],'参数错误');
         }
 
-        $files = explode('|',parent::rq('files'));
+        $files = parent::rq('files');
 
         $list = [];
 
         foreach ($files as $k => $v){
             $list[] = array(
                 'concordat_id' => (int)parent::rq('id'),
+                'directory' => md5((int)parent::rq('id')),
                 'path' => $v,
                 'sort' => (int)$k + 1,
                 'created_user_id' => $_SESSION['user_id'],

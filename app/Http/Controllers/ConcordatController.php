@@ -165,6 +165,33 @@ class ConcordatController extends Controller
         if(!empty(parent::rq('telephone')) && preg_match("/^1[34578]{1}[0-9]{9}$/",parent::rq('telephone'))){
             $newConcordat->telephone = parent::rq('telephone');
         }
+        if(!empty(parent::rq('signature'))){
+            $newConcordat->signature = parent::rq('signature');
+        }
+        if(!empty(parent::rq('per_money'))){
+            $newConcordat->per_money = parent::rq('per_money');
+        }
+        if(!empty(parent::rq('batch'))){
+            $newConcordat->batch = parent::rq('batch');
+        }
+        if(!empty(parent::rq('area'))){
+            $newConcordat->area = parent::rq('area');
+        }
+        if(!empty(parent::rq('area_unit'))){
+            $newConcordat->area_unit = parent::rq('area_unit');
+        }
+        if(!empty(parent::rq('charge'))){
+            $newConcordat->charge = parent::rq('charge');
+        }
+        if(!empty(parent::rq('subject'))){
+            $newConcordat->subject = parent::rq('subject');
+        }
+        if(!empty(parent::rq('place'))){
+            $newConcordat->place = parent::rq('place');
+        }
+        if(!empty(parent::rq('comment'))){
+            $newConcordat->comment = parent::rq('comment');
+        }
         $newConcordat->updated_user_id = $_SESSION['user_id'];
         if($newConcordat->save())
             parent::success();

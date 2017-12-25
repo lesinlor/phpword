@@ -7,6 +7,8 @@
                 background-color="#545c64"
                 text-color="#fff"
                 active-text-color="#ffd04b">
+                <a href="/#/manage"><div class="title">智合同管理系统</div></a>
+
                 <el-menu-item index="3" @click="handleLogout">退出登录</el-menu-item>
                 <el-menu-item index="2" @click="handleEdit">修改密码</el-menu-item>
                 <el-menu-item index="1">你好，{{user.nickname}}</el-menu-item>
@@ -78,6 +80,9 @@
                     if(res.data.code === 0){
                         this.$router.push({path: '/login'})
                     }
+                }).catch(res => {
+                    console.log(res);
+                    this.$message.error('系统错误');
                 })
             },
             handleEdit() {
@@ -112,6 +117,15 @@
 </script>
 
 <style scoped>
+    .title{
+        float: left;
+        display: inline-block;
+        text-align: center;
+        line-height: 60px;
+        font-size: 20px;
+        width: 180px;
+        color: #fff;
+    }
     .el-header{
         padding:0;
     }

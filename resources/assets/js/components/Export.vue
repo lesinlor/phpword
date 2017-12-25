@@ -63,6 +63,7 @@
                 </el-form-item>
                 <el-form-item label="信息列表">
                     <el-checkbox-group v-model="form.field">
+
                         <el-checkbox label="name" name="field">项目名</el-checkbox>
                         <el-checkbox label="sign" name="field">签约方</el-checkbox>
                         <el-checkbox label="address" name="field">地址</el-checkbox>
@@ -79,7 +80,7 @@
                     </el-select>
                 </el-form-item>
 
-                <el-button type="primary" size="mini" class="marginTop" @click="onSubmit">搜索</el-button>
+                <el-button type="primary" size="mini" class="marginTop" @click="handleSearch">搜索</el-button>
             </el-form>
             </transition>
         </el-card>
@@ -88,7 +89,7 @@
                 <div v-for="item in data" class="drag-table">{{item.name}}</div>
             </draggable>
         </el-row>
-        <el-button type="primary" class="marginTop" @click="onSubmit">导出</el-button>
+        <el-button type="primary" class="marginTop" @click="handleExport">导出</el-button>
     </div>
 </template>
 
@@ -102,7 +103,7 @@
             return {
                 api: {
                     get: '/api/table/list',
-                    exp: ''
+                    export: '/api/export'
                 },
                 form: {
                     number: '',
@@ -125,21 +126,29 @@
                     gt: '>',
                     lt: '<',
                     // eq: '='
-                }
+                },
+                column: []
             }
         },
         methods: {
             handleSearch() {
-                console.log(this.form);
+                this.reloadData()
             },
-            onSubmit() {
+            //搜索
+            handleExport() {
                 let id = ''
                 for(let i in this.data){
                     id += this.data[i].id + ','
                 }
+                let params = {
+                    id: id,
+                    field: 'id,name,address,money,st,et,section'
+                }
                 console.log(id);
                 console.log(this.form);
-                this.reloadData()
+                axios.post(this.api.export, qs.stringify(params)).then(res => {
+                    console.log(res);
+                })
             },
             reloadData() {
                 let params = {
@@ -151,6 +160,9 @@
             }
         },
         created() {
+            axios.get('/api/export/column').then(res => {
+
+            })
             this.reloadData()
         }
     }
